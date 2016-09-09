@@ -52,7 +52,7 @@ void TMR2_ISR()
 	{
 		TMR2 = 6;
 		tmr2_ovf = 0x00;
-		uptime_s++;		
+		uptime_s++;		// Increase uptime counter
 	}
 }
 

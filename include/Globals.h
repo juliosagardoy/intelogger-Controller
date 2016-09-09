@@ -1,4 +1,4 @@
-/* 
+ /* 
  * File:   Globals.h
  * Author: julio
  *
@@ -8,13 +8,16 @@
 #ifndef GLOBALS_H
 #define	GLOBALS_H
 
+#include <xc.h>
+#include <stddef.h>
+#include <stdint.h>        /* For uintX_t definition */
+#include <string.h>
+#include <stdio.h>
+
 /*--------------------------------------------------------------------------------------------------
                                           Constants
 --------------------------------------------------------------------------------------------------*/
-#define _XTAL_FREQ 16000000
-
-#define FALSE                   0
-#define TRUE                    (!FALSE)
+#define _XTAL_FREQ 4000000
 
 #define bit_is_set(port,pin)     ((port) & (1<<(pin)))
 #define bit_is_clear(port,pin)   ~((port) & (1<<(pin)))
@@ -29,31 +32,28 @@
 #define INPUT_IS_SET             ( bit_is_set( DATAIN_PIN, DATAIN ) )
 #define INPUT_IS_CLEAR           ( bit_is_clear( DATAIN_PIN, DATAIN ) )
 
+#define _HOST_TIMEOUT      20 /* Timeout given to host before admiting no comm */
+
 #define DISCRETE_SIGS_QTY   4
 #define GPIO_VTS            PORTAbits.RA7
 #define GPIO_PCS            PORTBbits.RB1
 #define GPIO_ALT            PORTCbits.RC5
 #define GPIO_FAN            PORTAbits.RA6
 
-#define AN_TPS_CHAN         0x0C    // TPS,AN2
-#define AN_ECT_CHAN         0x00    // ECT,AN0
-#define AN_MAP_CHAN         0x0B    // MAP,AN3
-#define AN_HO2_CHAN         0x01    // HO2,AN1
-#define AN_IAT_CHAN         0x04    // IAT,AN4
-#define AN_FLV_CHAN         0x08    // FLV,AN8
-#define AN_EXT_CHAN         0x0D    // EXTTEMP,AN13
-#define AN_TIM_CHAN         0x1D    // Temperature indicator
+#define ANALOG_SIGS_QTY     9
+#define AN_TPS_CHAN         0x0C    /* Throttle Position tied to AN12,RB0 */
+#define AN_ECT_CHAN         0x00    /* Engine Coolant Temp tied to AN0,RA0 */
+#define AN_MAP_CHAN         0x0B    /* Manifold Air Pressure tied to AN11,RB4 */
+#define AN_HO2_CHAN         0x01    /* Heated Oxygen Sensor tied to AN1,RA1 */
+#define AN_IAT_CHAN         0x04    /* Intake Air Temp tied to AN4,RA5 */
+#define AN_FLV_CHAN         0x08    /* Fuel Level tied to AN8,RB2 */
+#define AN_EXT_CHAN         0x0D    /* Ext temp sensor tied to AN13,RB5 */
+#define AN_BAT_CHAN         0x0A    /* Battery voltage tied to AN9,RB3 */
+#define AN_TIM_CHAN         0x1D    /* PIC Internal Temperature */
 
-#define INTERRUPT_GlobalInterruptDisable() (INTCONbits.GIE = 0)
-#define INTERRUPT_GlobalInterruptEnable() (INTCONbits.GIE = 1)
-#define INTERRUPT_PeripheralInterruptEnable() (INTCONbits.PEIE = 1)
-#define INTERRUPT_PeripheralInterruptDisable() (INTCONbits.PEIE = 0)
-
-#include <xc.h>
-#include <stdint.h>        /* For uintX_t definition */
-#include <string.h>
-#include <stdlib.h>
-#include <stddef.h>
+#define CCP_SIGS_QTY        2
+#define CCP_RPM_CHAN        1
+#define CCP_VSS_CHAN        2
 
 /*--------------------------------------------------------------------------------------------------
                                        Type definitions
