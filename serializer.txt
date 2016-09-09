@@ -1,0 +1,39 @@
+Now, the simplest way to do this is to create a defined format and pack it into an array of bytes. I will try to show an example:
+
+int sLen = 0;
+int tLen = 0;
+char* serialized = 0;
+char* metadata = 0;
+char* xval = 0;
+char* xstr = 0;
+our_struct_t x;
+x.v   = 10;
+x.str = "Our String";
+sLen  = strlen(x.str); // Assuming null-terminated (which ours is)
+tLen  = sizeof(int) + sLen; // Our struct has an int and a string - we want the whole string not a mem addr
+serialized = malloc(sizeof(char) * (tLen + sizeof(int)); // We have an additional sizeof(int) for metadata - this will hold our string length
+metadata = serialized;
+xval = serialized + sizeof(int);
+xstr = xval + sizeof(int);
+*((int*)metadata) = sLen; // Pack our metadata
+*((int*)xval) = x.v; // Our "v" value (1 int)
+strncpy(xstr, x.str, sLen); // A full copy of our string
+
+So this example copies the data into an array of size 2 * sizeof(int) + sLen which allows us a single integer of metadata (i.e. string length) and the extracted values from the struct. To deserialize, you could imagine something as follows:
+
+char* serialized = // Assume we have this
+char* metadata = serialized;
+char* yval = metadata + sizeof(int);
+char* ystr = yval + sizeof(int);
+our_struct_t y;
+int sLen = *((int*)metadata);
+y.v = *((int*)yval);
+y.str = malloc((sLen + 1) * sizeof(char)); // +1 to null-terminate
+strncpy(y.str, ystr, sLen);
+y.str[sLen] = '\0';
+
+As you can see, our array of bytes is well-defined. Below I have detailed the structure:
+
+    Bytes 0-3 : Meta-data (string length)
+    Bytes 4-7 : X.v (value)
+    Bytes 8 - sLen : X.str (value)

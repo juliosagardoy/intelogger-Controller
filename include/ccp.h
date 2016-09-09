@@ -11,13 +11,11 @@
 #include "Globals.h"
 
 void init_ccp( void );
-void ccp_reset_tmr();
-void ccp_disable_tmr();
-void ccp_read( word*,word* );
+word ccp_module_read(const byte);
 void CCP1_ISR( void );
 void CCP2_ISR( void );
-void CCP3_ISR( void );
-//void CCP4_ISR( void );
+
+
 
 #endif	/* CCP_H */
 

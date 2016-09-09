@@ -125,8 +125,8 @@ void EUSART_WriteString(char* str)
 
 void EUSART_PurgeBuffer(void)
 {
-    memset(eusartTxBuffer, 0, sizeof (eusartTxBuffer));
-    memset(eusartRxBuffer, 0, sizeof (eusartRxBuffer));
+//    memset(eusartTxBuffer, 0, sizeof (eusartTxBuffer));
+ //   memset(eusartRxBuffer, 0, sizeof (eusartRxBuffer));
 }
 
 /**

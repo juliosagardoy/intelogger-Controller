@@ -37,7 +37,6 @@ word
 adc_read( const byte chan )
 {
 	word res = 0x00;
-	byte sum;
 	
 	ADCON0bits.CHS = chan;		// Select req. channel to ADC
 	

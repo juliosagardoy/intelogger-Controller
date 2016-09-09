@@ -16,12 +16,7 @@ void interrupt INTERRUPT_InterruptManager(void)
 		CCP1_ISR();
 	} else if (PIE2bits.CCP2IE == 1 && PIR2bits.CCP2IF == 1) {
 		CCP2_ISR();
-	} else if (PIE3bits.CCP3IE == 1 && PIR3bits.CCP3IF == 1) {
-		CCP3_ISR();
-	} /*else if (PIE3bits.CCP4IE == 1 && PIR3bits.CCP4IF == 1) {
-		CCP4_ISR();
-	} */
-	else if (PIE1bits.TMR2IE == 1 && PIR1bits.TMR2IF == 1) {
+	} else if (PIE1bits.TMR2IE == 1 && PIR1bits.TMR2IF == 1) {
 		TMR2_ISR();
 	} else if (PIE3bits.TMR6IE == 1 && PIR3bits.TMR6IF == 1) {
 		TMR6_ISR();
