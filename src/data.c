@@ -9,9 +9,9 @@
 
 void init_data()
 {
-  //  memset(&DiscreteSigs, 0x00, sizeof(DiscreteSigs));
-  //  memset(&AnalogSigs, 0x00, sizeof(AnalogSigs));
-   // memset(&CcpSigs, 0x00, sizeof(CcpSigs));
+    memset(&DiscreteSigs, 0x00, sizeof(DiscreteSigs));
+    memset(&AnalogSigs, 0x00, sizeof(AnalogSigs));
+    memset(&CcpSigs, 0x00, sizeof(CcpSigs));
 }
 
 /**
@@ -49,7 +49,9 @@ analog_sigs analog_read(void) {
     AnalogSigs.ho2 = adc_read(AN_HO2_CHAN);
     AnalogSigs.iat = adc_read(AN_IAT_CHAN);
     AnalogSigs.fle = adc_read(AN_FLV_CHAN);
+    AnalogSigs.bat = adc_read(AN_BAT_CHAN);
     AnalogSigs.tin = adc_read(AN_TIM_CHAN);
+    AnalogSigs.ext = adc_read(AN_EXT_CHAN);
     adc_disable();
     
     return AnalogSigs;
@@ -60,8 +62,8 @@ analog_sigs analog_read(void) {
  * @return ccp_sigs structure data
  */
 ccp_sigs ccp_read(void) {
-	CcpSigs.rpm = ccp_module_read(1) - CcpSigs.rpm;
-	CcpSigs.vss = ccp_module_read(2) - CcpSigs.vss;
+	CcpSigs.rpm = ccp_module_read(CCP_RPM_CHAN) - CcpSigs.rpm;
+	CcpSigs.vss = ccp_module_read(CCP_VSS_CHAN) - CcpSigs.vss;
     
     return CcpSigs;
 }

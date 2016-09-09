@@ -3,7 +3,12 @@
 #include "ccp.h"
 #include "timer.h"
 
-void interrupt INTERRUPT_InterruptManager(void)
+inline void INTERRUPT_GlobalInterruptEnable() { INTCONbits.GIE = 1; }
+inline void INTERRUPT_GlobalInterruptDisable() { INTCONbits.GIE = 0; }
+inline void INTERRUPT_PeripheralInterruptEnable() { INTCONbits.PEIE = 1; }
+inline void INTERRUPT_PeripheralInterruptDisable() { INTCONbits.PEIE = 0; }
+
+void interrupt INTERRUPT_InterruptManager()
 {
 	// interrupt handler
 	if (PIE1bits.RCIE == 1 && PIR1bits.RCIF == 1) {

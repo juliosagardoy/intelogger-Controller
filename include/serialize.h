@@ -32,8 +32,8 @@ typedef struct {
 
 typedef SerialMessage_t serial_message;
 
-static vector BufCtl;
-static serial_message RxMsg;
+vector BufCtl;
+serial_message RxMsg;
 
 void init_serializer(void);
 void serialize_byte_pushback(const byte, vector *);
@@ -41,4 +41,3 @@ void serialize_word_pushback(const word, vector *);
 void transmit_sentence(byte start, byte datatype, byte datasize, const byte *data);
 
 #endif	/* SERIALIZE_H */
-

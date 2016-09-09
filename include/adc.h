@@ -10,10 +10,10 @@
 
 #include "Globals.h"
 
-void init_adc( void );
-inline void adc_enable( void );
-inline void adc_disable( void );
-word adc_read( const byte );
+void init_adc(void);
+inline void adc_enable(void);
+inline void adc_disable(void);
+word adc_read(const byte);
 
 #endif	/* ADC_H */
 

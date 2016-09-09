@@ -8,10 +8,6 @@
 #ifndef DATA_H
 #define	DATA_H
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
 #include "Globals.h"
     
 /* -------------*
@@ -19,13 +15,13 @@ extern "C" {
  * -------------*/
     
 /**
- * DiscreteSigs structure
+ * DiscreteSigs structure, all packed in a single byte
  */
 typedef struct {
-    byte vts;
-    byte pcs;
-    byte alt;
-    byte fan;
+    unsigned vts : 1;
+    unsigned pcs : 1;
+    unsigned alt : 1;
+    unsigned fan : 1;
 } DiscreteSigs_t;
 
 typedef DiscreteSigs_t discrete_sigs;
@@ -60,8 +56,6 @@ typedef struct {
 
 typedef CcpSigs_t ccp_sigs;
 
-
-
 /*
  * Function declarations 
  */
@@ -71,13 +65,10 @@ analog_sigs analog_read(void);
 ccp_sigs ccp_read(void);
 
 /* Struct declaration */
-static discrete_sigs DiscreteSigs;
-static analog_sigs AnalogSigs;
-static ccp_sigs CcpSigs;
+discrete_sigs DiscreteSigs;
+analog_sigs AnalogSigs;
+ccp_sigs CcpSigs;
 
-#ifdef	__cplusplus
-}
-#endif
 
 #endif	/* DATA_H */
 

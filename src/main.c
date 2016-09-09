@@ -1,16 +1,13 @@
-l/* 
+/*
  * File:   main.c
  * Author: julio
  *
  * Created on February 7, 2015, 9:29 AM
  */
 
-
-#include <stdio.h>
-#include <stddef.h>
-#include <stdbool.h>
-
 #include "configBytes.h"
+
+
 #include "irq_manager.h"
 #include "usart.h"
 #include "adc.h"
@@ -21,7 +18,7 @@ l/*
 
 /* Variables that control program status */
 //    discrete_sigs DiscreteSigs = 0x00;
-byte __pc_active = 0; // 1 if serialport with PC is up
+bit __pc_active = 0; // 1 if serialport with PC is up
 byte pc_timeout = 0;
 
 static void
@@ -66,20 +63,9 @@ init_mcu() {
 
 }
 
-
-
-/**
- * Resets BufCtl size counter, causing further operations to overwrite current BufCtl contents
- * @param pointer to datasize from BufCtl
- */
-inline void
-serialize_purge(byte * datasize) {
-    *datasize = 0x00; // Purge serializer buffer
-}
-
 /**
  * Loop
- * @return 
+ * @return
  */
 int loop() {
     while (1) {
@@ -109,8 +95,8 @@ int loop() {
         CcpSigs = ccp_read();
 
         /* Transform timer increments to rpm */
-        //        ccp2rpm(&CcpSigs.rpm);
-        //       ccp2rpm(&CcpSigs.vss);
+        // ccp2rpm(&CcpSigs.rpm);
+        //    ccp2rpm(&CcpSigs.vss);
 
 #ifdef DEBUG
         __pc_active = 1;
@@ -118,7 +104,7 @@ int loop() {
         /* If communication with PC is established, serialize&send data */
         if (__pc_active) {
             /* Serialize IC status, datatype 0x33 */
-            serialize_purge(&BufCtl.datasize);
+            BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
             serialize_word_pushback(uptime_s, &BufCtl);
             serialize_word_pushback(AnalogSigs.tin, &BufCtl);
             serialize_word_pushback(AnalogSigs.ext, &BufCtl);
@@ -126,7 +112,7 @@ int loop() {
             transmit_sentence(0x01, 0x33, BufCtl.datasize, BufCtl.data);
 
             /* Serialize DiscreteSigs, datatype 0x30 */
-            serialize_purge(&BufCtl.datasize);
+            BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
             serialize_byte_pushback(DiscreteSigs.vts ? '1' : '0', &BufCtl);
             serialize_byte_pushback(DiscreteSigs.pcs ? '1' : '0', &BufCtl);
             serialize_byte_pushback(DiscreteSigs.alt ? '1' : '0', &BufCtl);
@@ -135,7 +121,7 @@ int loop() {
             transmit_sentence(0x01, 0x30, BufCtl.datasize, BufCtl.data);
 
             /* Serialize AnalogSigs, datatype 0x31 */
-            serialize_purge(&BufCtl.datasize);
+            BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
             serialize_word_pushback(AnalogSigs.tps, &BufCtl);
             serialize_word_pushback(AnalogSigs.ect, &BufCtl);
             serialize_word_pushback(AnalogSigs.map, &BufCtl);
@@ -147,7 +133,7 @@ int loop() {
             transmit_sentence(0x01, 0x31, BufCtl.datasize, BufCtl.data);
 
             /* Serialize CcpSigs, datatype 0x32 */
-            serialize_purge(&BufCtl.datasize);
+            BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
             serialize_word_pushback(CcpSigs.rpm, &BufCtl);
             serialize_word_pushback(CcpSigs.vss, &BufCtl);
 
@@ -167,10 +153,10 @@ int loop() {
  * Main
  * @param argc
  * @param argv
- * @return 
+ * @return
  */
-int
-main(int argc, char** argv) {
+void
+main() {
     init_osc();
     init_mcu();
     init_tmr2();
@@ -190,5 +176,7 @@ main(int argc, char** argv) {
     loop();
 
     adc_disable();
-    return (1);
+    //TODO: Add stop uptime count
+    INTERRUPT_PeripheralInterruptDisable();
+    INTERRUPT_GlobalInterruptDisable();
 }

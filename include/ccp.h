@@ -10,12 +10,10 @@
 
 #include "Globals.h"
 
-void init_ccp( void );
+void init_ccp(void);
 word ccp_module_read(const byte);
-void CCP1_ISR( void );
-void CCP2_ISR( void );
-
-
+void CCP1_ISR(void);
+void CCP2_ISR(void);
 
 #endif	/* CCP_H */
 

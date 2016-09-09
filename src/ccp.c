@@ -5,8 +5,8 @@
 
 #include "ccp.h"
 
-word rpm;
-word vss;
+word rpm = { 0 };
+word vss = { 0 };
 
 /*
  * Initialites MCU to enable CCP and associated TMR1 resources
