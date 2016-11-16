@@ -11,7 +11,7 @@
  *  -   Timer3: Not used
  *  -   Timer4: Not used
  *  -   Timer5: Not used
- *  -   Timer6: Irqs every 62.5 ms
+ *  -   Timer6: Irqs every 10 ms, used for program pace
  */
 
 #ifndef TIMER_H

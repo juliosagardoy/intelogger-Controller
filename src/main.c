@@ -45,10 +45,10 @@ init_mcu() {
 
     /* GPIO ports direction config */
     TRISAbits.TRISA7 = 1; // VTS
-//    TRISBbits.TRISB1 = 1; // PCS
+    //    TRISBbits.TRISB1 = 1; // PCS
     ANSELBbits.ANSB1 = 0; // Set pin as GPIO
-//    TRISCbits.TRISC5 = 1; // ALT
-//    TRISAbits.TRISA6 = 1; // FANC
+    //    TRISCbits.TRISC5 = 1; // ALT
+    //    TRISAbits.TRISA6 = 1; // FANC
 
     /* Analog i/o */
     TRISBbits.TRISB0 = 1; // TPS;
@@ -64,7 +64,7 @@ init_mcu() {
 
     /* CCP */
     TRISCbits.TRISC2 = 1; // CKP CCP1
-//    TRISCbits.TRISC1 = 1; // VSS CCP2
+    //    TRISCbits.TRISC1 = 1; // VSS CCP2
 
     /* PWM */
     TRISAbits.TRISA4 = 0; // BEEP output CCP5
@@ -89,8 +89,7 @@ int loop() {
                 EUSART_Write_1Byte(ANALOG_SIGS_QTY);
                 EUSART_Write_1Byte(CCP_SIGS_QTY);
                 __pc_active = 1; // PC has been identified
-            }
-            else if (pc_timeout == _HOST_TIMEOUT)
+            } else if (pc_timeout == _HOST_TIMEOUT)
                 __pc_active = 0;
                 /* PC didn't signal, so increase timeout counter */
             else
@@ -110,7 +109,7 @@ int loop() {
         if (__pc_active) {
             /* Serialize IC status, datatype 0x33 */
             BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
-//            serialize_word_(uptime_s, &BufCtl);   // Not used anymore
+            //            serialize_word_(uptime_s, &BufCtl);   // Not used anymore
             serialize_word_(AnalogSigs.tin, &BufCtl);
             serialize_word_(AnalogSigs.ext, &BufCtl);
 
@@ -146,11 +145,9 @@ int loop() {
         }
 
         //__delay_ms(PACE_MS);
-        /* Wait for tmr6_ovf_count to count 32=2s/62.5ms */
+        /* Wait for tmr6_ovf_count to count 200ms before refreshing */
         while (!__200ms_flag);
         __200ms_flag = 0;
-        
-        //tmr6_reset();
     }
 }
 
