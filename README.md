@@ -1,20 +1,22 @@
 #intelogger-Controller
 
 ## Introduction
-Engine monitoring tool for Honda's OBD2a. Can be used on any Honda OBD2a ECU with the appropiate adapter harness, as long as the pinout <b>is as per documentation</b>. <u>Do not use without double-checking compatibility; This would lead to catastrophic results and you could loose the engine, the car and your life.</u>
+Engine monitoring tool for Honda's OBD2a. Can be used on any Honda OBD2a ECU with the appropiate adapter harness, as long as the pinout <b>is as per documentation</b>.
 
 System has been developed on a JDM '96 Honda Integra DC2 with OEM ECU.
 It does not "inject" anything into the ECU nor the engine. It just **reads** discrete values, analog signals and PWM signals to extract engine status data.
 
-uC is a 16-bit Microchip PIC16F1938 running at internal 4 MHz.
+uC is a 16-bit Microchip PIC16F1938 @ internal 4 MHz.
+
+Project is related to Intelogger-display,communication will be through I2C protocol
 
 ## PC communications
-Communication with computer is done through a serial port RS232.
+Communication with computer is possible through a serial port RS232.
 
 ### Serialport config
 9600 8n1
 
-### Initial comm
+### Initial communication with computer
 In order to initiate the communications, some talk is needed from PC (registration).
 
 | PC (byte) ->  | <- uC (byte)        | Comment  
@@ -53,19 +55,21 @@ Folowing datagrams are sent once PC_COMM is 1 and initial communication is estab
 *data* will contain a vector of bytes of size *datasize* and containing *datatype* info.
 
 #### Discrete signals
-Discrete signals are all packed in a single byte using bit-shifting. This means, for discrete, datasize will equal 1 though.
-Only the first 4 bits are used.
-
-| 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1
-| : | : | : | : | : | : | : | :
-| - | - | - | - | VTS | PCS | ALT | FAN
+VTS on or off
 
 #### Analog signals
+word tps Throttle Position Sensor
+word map Manifold Absolute Pressure
+word ect Engine Cooling Temperature
+word ho2 O2 sensor
+word iat Intake Air Temperature
+word fle Fuel Level - not used
+word ext External temp
+word bat Battery Voltage
+word tin Internal PIC temperature
 
 #### CCP signals
+RPM signal
 
 #### Self test status
-
-## IDEAS FOR NEXT REVISIONS ##
-0. LCD via SPI
-1. Pass update rate from PC to uc. uc will check against its minimum refresh time
+Internal PIC temperature
