@@ -17,7 +17,7 @@ void init_ccp()
 	T1CONbits.TMR1CS = 0x00; // Timer1 internal osc divided by 4, Tinc=1us
 	T1CONbits.T1CKPS = 0x00; // Prescale 1:1 -> Tinc=1us
 	CCP1CON = 0x05; // CKP CCP every falling edge
-	CCP2CON = 0x05; // VSS CCP every falling edge
+//	CCP2CON = 0x05; // VSS CCP every falling edge
 	T1CONbits.TMR1ON = 1;
     
     rpm=0;

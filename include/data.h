@@ -19,9 +19,9 @@
  */
 typedef struct {
     unsigned vts : 1;
-    unsigned pcs : 1;
-    unsigned alt : 1;
-    unsigned fan : 1;
+    unsigned other1 : 1;
+    unsigned other2 : 1;
+    unsigned other3 : 1;
 } DiscreteSigs_t;
 
 typedef DiscreteSigs_t discrete_sigs;
@@ -51,7 +51,7 @@ typedef AnalogSigs_t analog_sigs;
  */
 typedef struct {
     word rpm;
-    word vss;
+    word other1;
 } CcpSigs_t;
 
 typedef CcpSigs_t ccp_sigs;

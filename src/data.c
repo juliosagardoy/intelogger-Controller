@@ -24,14 +24,14 @@ discrete_sigs discrete_read() {
 //    *DiscreteSigs |= GPIO_ALT << 2;
 //    *DiscreteSigs |= GPIO_FAN << 3;
     DiscreteSigs.vts = GPIO_VTS;
-    DiscreteSigs.pcs = GPIO_PCS;
-    DiscreteSigs.alt = GPIO_ALT;
-    DiscreteSigs.fan = GPIO_FAN;
+//    DiscreteSigs.pcs = GPIO_PCS;
+//   DiscreteSigs.alt = GPIO_ALT;
+//    DiscreteSigs.fan = GPIO_FAN;
 #ifdef DEBUG
     DiscreteSigs.vts = 1;
-    DiscreteSigs.pcs = 0;
-    DiscreteSigs.alt = 1;
-    DiscreteSigs.fan = 1;    
+    DiscreteSigs.other1 = 0;
+    DiscreteSigs.other2 = 1;
+    DiscreteSigs.other3 = 1;    
 #endif
     
     return DiscreteSigs;
@@ -63,7 +63,7 @@ analog_sigs analog_read(void) {
  */
 ccp_sigs ccp_read(void) {
 	CcpSigs.rpm = ccp_module_read(CCP_RPM_CHAN) - CcpSigs.rpm;
-	CcpSigs.vss = ccp_module_read(CCP_VSS_CHAN) - CcpSigs.vss;
+//	CcpSigs.vss = ccp_module_read(CCP_VSS_CHAN) - CcpSigs.vss;
     
     return CcpSigs;
 }

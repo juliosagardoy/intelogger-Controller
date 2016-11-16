@@ -36,8 +36,8 @@ vector BufCtl;
 serial_message RxMsg;
 
 void init_serializer(void);
-void serialize_byte_pushback(const byte, vector *);
-void serialize_word_pushback(const word, vector *);
+void serialize_byte_(const byte, vector *);
+void serialize_word_(const word, vector *);
 void transmit_sentence(byte start, byte datatype, byte datasize, const byte *data);
 
 #endif	/* SERIALIZE_H */

@@ -17,7 +17,7 @@ void init_serializer(void)
  * @param in The byte to be appended
  * @param out Pointer to bufctl
  */
-void serialize_byte_pushback(const byte in, vector *out)
+void serialize_byte_(const byte in, vector *out)
 {
 	memcpy(((byte*)out->data) + out->datasize, &in, sizeof(byte));
 	
@@ -29,7 +29,7 @@ void serialize_byte_pushback(const byte in, vector *out)
  * @param in The word to be appended
  * @param out Pointer to bufctl
  */
-void serialize_word_pushback(const word in, vector *out)
+void serialize_word(const word in, vector *out)
 {
 	byte lsB, msB;
 	

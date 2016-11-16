@@ -65,3 +65,7 @@ Only the first 4 bits are used.
 #### CCP signals
 
 #### Self test status
+
+## IDEAS FOR NEXT REVISIONS ##
+0. LCD via SPI
+1. Pass update rate from PC to uc. uc will check against its minimum refresh time

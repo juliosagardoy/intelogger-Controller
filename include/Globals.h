@@ -32,13 +32,13 @@
 #define INPUT_IS_SET             ( bit_is_set( DATAIN_PIN, DATAIN ) )
 #define INPUT_IS_CLEAR           ( bit_is_clear( DATAIN_PIN, DATAIN ) )
 
-#define _HOST_TIMEOUT      20 /* Timeout given to host before admiting no comm */
+#define _HOST_TIMEOUT      20 /* 20*10ms=200ms Timeout given to host before admiting no comm */
 
-#define DISCRETE_SIGS_QTY   4
+#define DISCRETE_SIGS_QTY   1
 #define GPIO_VTS            PORTAbits.RA7
-#define GPIO_PCS            PORTBbits.RB1
-#define GPIO_ALT            PORTCbits.RC5
-#define GPIO_FAN            PORTAbits.RA6
+//#define GPIO_PCS            PORTBbits.RB1
+//#define GPIO_ALT            PORTCbits.RC5
+//#define GPIO_FAN            PORTAbits.RA6
 
 #define ANALOG_SIGS_QTY     9
 #define AN_TPS_CHAN         0x0C    /* Throttle Position tied to AN12,RB0 */
@@ -51,9 +51,9 @@
 #define AN_BAT_CHAN         0x0A    /* Battery voltage tied to AN9,RB3 */
 #define AN_TIM_CHAN         0x1D    /* PIC Internal Temperature */
 
-#define CCP_SIGS_QTY        2
+#define CCP_SIGS_QTY        1
 #define CCP_RPM_CHAN        1
-#define CCP_VSS_CHAN        2
+//#define CCP_VSS_CHAN        2
 
 /*--------------------------------------------------------------------------------------------------
                                        Type definitions

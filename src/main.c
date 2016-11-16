@@ -6,8 +6,6 @@
  */
 
 #include "configBytes.h"
-
-
 #include "irq_manager.h"
 #include "usart.h"
 #include "adc.h"
@@ -104,9 +102,6 @@ int loop() {
         AnalogSigs = analog_read();
         CcpSigs = ccp_read();
 
-        /* Transform timer increments to rpm */
-        // ccp2rpm(&CcpSigs.rpm);
-        //    ccp2rpm(&CcpSigs.vss);
 
 #ifdef DEBUG
         __pc_active = 1;
