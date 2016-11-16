@@ -29,7 +29,7 @@ void serialize_byte_(const byte in, vector *out)
  * @param in The word to be appended
  * @param out Pointer to bufctl
  */
-void serialize_word(const word in, vector *out)
+void serialize_word_(const word in, vector *out)
 {
 	byte lsB, msB;
 	
