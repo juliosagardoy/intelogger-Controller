@@ -20,11 +20,11 @@
 #include "Globals.h"
 
 byte tmr2_ovf;
-byte tmr6_ovf_count;
-byte __1s_tick; // Helper for uptime_s count
-byte __125ms_tick; // Helper for 125 ms increments count
-bit __125ms_flag;
-word uptime_s;  // Uptime counts seconds up to 65536*60*60=18h
+byte tmr6_ovf;
+//byte __200ms_flag; // Helper for uptime_s count
+//byte __125ms_tick; // Helper for 125 ms increments count
+bit __200ms_flag;
+//word uptime_s;  // Uptime counts seconds up to 65536*60*60=18h
 
 void init_tmr2(void);
 void init_tmr6(void);
