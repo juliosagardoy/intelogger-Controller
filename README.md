@@ -1,4 +1,4 @@
-#intelogger-Controller
+#intelogger-Controller Rev.2 -Rethink
 
 ## Introduction
 Engine monitoring tool for Honda's OBD2a. Can be used on any Honda OBD2a ECU with the appropiate adapter harness, as long as the pinout <b>is as per documentation</b>.
