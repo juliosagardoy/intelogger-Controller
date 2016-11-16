@@ -17,15 +17,25 @@
 #include "data.h"
 
 /* Variables that control program status */
-//    discrete_sigs DiscreteSigs = 0x00;
+
+/**
+ * __pc_active will be 1 as long as PC sends alive signal.
+ * It will be 0 if PC takes more than 5s to report alive.
+ */
 bit __pc_active = 0; // 1 if serialport with PC is up
+
+/**
+ * Counter for PC alive
+ */
 byte pc_timeout = 0;
 
 static void
 init_osc() {
-    OSCCON = 0x68; // PLL OFF,4MHz INTOSC, OSC defined in Confbytes
-    // OSTS intosc; HFIOFR disabled; HFIOFS not0.5percent_acc; PLLR disabled; T1OSCR disabled; MFIOFR disabled; HFIOFL not2percent_acc; LFIOFR disabled;
-    // TUN 0x0;
+    OSCCON = 0x68; /* 01101000 PLL OFF,4MHz INTOSC, OSC defined in ConfBytes
+    * OSTS intosc; HFIOFR disabled; HFIOFS not0.5percent_acc; PLLR disabled;
+    * T1OSCR disabled; MFIOFR disabled; HFIOFL not2percent_acc; LFIOFR disabled;
+    * TUN 0x0;
+    */
     OSCTUNE = 0x00;
 }
 
@@ -37,10 +47,10 @@ init_mcu() {
 
     /* GPIO ports direction config */
     TRISAbits.TRISA7 = 1; // VTS
-    TRISBbits.TRISB1 = 1; // PCS
+//    TRISBbits.TRISB1 = 1; // PCS
     ANSELBbits.ANSB1 = 0; // Set pin as GPIO
-    TRISCbits.TRISC5 = 1; // ALT
-    TRISAbits.TRISA6 = 1; // FANC
+//    TRISCbits.TRISC5 = 1; // ALT
+//    TRISAbits.TRISA6 = 1; // FANC
 
     /* Analog i/o */
     TRISBbits.TRISB0 = 1; // TPS;
@@ -56,7 +66,7 @@ init_mcu() {
 
     /* CCP */
     TRISCbits.TRISC2 = 1; // CKP CCP1
-    TRISCbits.TRISC1 = 1; // VSS CCP2
+//    TRISCbits.TRISC1 = 1; // VSS CCP2
 
     /* PWM */
     TRISAbits.TRISA4 = 0; // BEEP output CCP5
@@ -81,7 +91,7 @@ int loop() {
                 EUSART_Write_1Byte(ANALOG_SIGS_QTY);
                 EUSART_Write_1Byte(CCP_SIGS_QTY);
                 __pc_active = 1; // PC has been identified
-            }/* If timeout reached, flag off COMM */
+            }
             else if (pc_timeout == _HOST_TIMEOUT)
                 __pc_active = 0;
                 /* PC didn't signal, so increase timeout counter */
@@ -105,47 +115,47 @@ int loop() {
         if (__pc_active) {
             /* Serialize IC status, datatype 0x33 */
             BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
-            serialize_word_pushback(uptime_s, &BufCtl);
-            serialize_word_pushback(AnalogSigs.tin, &BufCtl);
-            serialize_word_pushback(AnalogSigs.ext, &BufCtl);
+            serialize_word_(uptime_s, &BufCtl);
+            serialize_word_(AnalogSigs.tin, &BufCtl);
+            serialize_word_(AnalogSigs.ext, &BufCtl);
 
             transmit_sentence(0x01, 0x33, BufCtl.datasize, BufCtl.data);
 
             /* Serialize DiscreteSigs, datatype 0x30 */
             BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
-            serialize_byte_pushback(DiscreteSigs.vts ? '1' : '0', &BufCtl);
-            serialize_byte_pushback(DiscreteSigs.pcs ? '1' : '0', &BufCtl);
-            serialize_byte_pushback(DiscreteSigs.alt ? '1' : '0', &BufCtl);
-            serialize_byte_pushback(DiscreteSigs.fan ? '1' : '0', &BufCtl);
+            serialize_byte_(DiscreteSigs.vts ? '1' : '0', &BufCtl);
+            serialize_byte_(DiscreteSigs.other1 ? '1' : '0', &BufCtl);
+            serialize_byte_(DiscreteSigs.other2 ? '1' : '0', &BufCtl);
+            serialize_byte_(DiscreteSigs.other3 ? '1' : '0', &BufCtl);
 
             transmit_sentence(0x01, 0x30, BufCtl.datasize, BufCtl.data);
 
             /* Serialize AnalogSigs, datatype 0x31 */
             BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
-            serialize_word_pushback(AnalogSigs.tps, &BufCtl);
-            serialize_word_pushback(AnalogSigs.ect, &BufCtl);
-            serialize_word_pushback(AnalogSigs.map, &BufCtl);
-            serialize_word_pushback(AnalogSigs.ho2, &BufCtl);
-            serialize_word_pushback(AnalogSigs.iat, &BufCtl);
-            serialize_word_pushback(AnalogSigs.fle, &BufCtl);
-            serialize_word_pushback(AnalogSigs.bat, &BufCtl);
+            serialize_word_(AnalogSigs.tps, &BufCtl);
+            serialize_word_(AnalogSigs.ect, &BufCtl);
+            serialize_word_(AnalogSigs.map, &BufCtl);
+            serialize_word_(AnalogSigs.ho2, &BufCtl);
+            serialize_word_(AnalogSigs.iat, &BufCtl);
+            serialize_word_(AnalogSigs.fle, &BufCtl);
+            serialize_word_(AnalogSigs.bat, &BufCtl);
 
             transmit_sentence(0x01, 0x31, BufCtl.datasize, BufCtl.data);
 
             /* Serialize CcpSigs, datatype 0x32 */
             BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
-            serialize_word_pushback(CcpSigs.rpm, &BufCtl);
-            serialize_word_pushback(CcpSigs.vss, &BufCtl);
+            serialize_word_(CcpSigs.rpm, &BufCtl);
+            serialize_word_(CcpSigs.other1, &BufCtl);
 
             transmit_sentence(0x01, 0x32, BufCtl.datasize, BufCtl.data);
         }
 
         //__delay_ms(PACE_MS);
-        /* Wait for tmr6 tick. tmr6 configured to tick every 250 ms
-         * overflow == tcy*250*16*10 = 0.01 s
-         * 0.200/0.01s = 20 */
-        while (tmr6_ovf < 20);
-        reset_tmr6();
+        /* Wait for tmr6_ovf_count to count 32=2s/62.5ms */
+        while (!__125ms_flag);
+        __125ms_flag = 0;
+        
+        //tmr6_reset();
     }
 }
 
@@ -176,7 +186,7 @@ main() {
     loop();
 
     adc_disable();
-    //TODO: Add stop uptime count
+    tmr6_stop();
     INTERRUPT_PeripheralInterruptDisable();
     INTERRUPT_GlobalInterruptDisable();
 }
