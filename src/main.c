@@ -110,7 +110,7 @@ int loop() {
         if (__pc_active) {
             /* Serialize IC status, datatype 0x33 */
             BufCtl.datasize = 0x00; // Purge serializer buffer&BufCtl.datasize);
-            serialize_word_(uptime_s, &BufCtl);
+//            serialize_word_(uptime_s, &BufCtl);   // Not used anymore
             serialize_word_(AnalogSigs.tin, &BufCtl);
             serialize_word_(AnalogSigs.ext, &BufCtl);
 
@@ -147,8 +147,8 @@ int loop() {
 
         //__delay_ms(PACE_MS);
         /* Wait for tmr6_ovf_count to count 32=2s/62.5ms */
-        while (!__125ms_flag);
-        __125ms_flag = 0;
+        while (!__200ms_flag);
+        __200ms_flag = 0;
         
         //tmr6_reset();
     }
